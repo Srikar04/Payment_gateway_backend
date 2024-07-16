@@ -1,0 +1,38 @@
+datasource db{
+    provider = "mysql"
+    url = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id String @id @default(uuid())
+    apiKey String @unique
+    transaction Transaction[]
+}
+
+enum TransactionType{
+    CREDIT
+    DEBIT
+    DIGITAL
+}
+
+enum TransactionStatus{
+    PENDING
+    SUCCESS
+    FAILED
+    CANCELLED
+}
+
+model Transaction{
+    id String @id @default(uuid())
+    transactionOwner String
+    transactionDate DateTime @default(now())
+    transactionType TransactionType
+    amount Float
+    status TransactionStatus
+    description String?
+    user User @relation(fields: [transactionOwner], references: [id])
+}
