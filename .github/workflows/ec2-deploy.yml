@@ -22,9 +22,8 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Pull image from docker hub
-        run: docker pull srikar9/paymentgateway-app:latest
-      - name: Delete old container
-        run: docker rm -f paymentgateway-app-container
-      - name: Run docker container
-        run: docker run -d -p 3000:3000 --name paymentgateway-app-container srikar9/paymentgateway-app
+       - name: Pull Docker image and restart containers
+        run: |
+          docker-compose pull
+          docker-compose down
+          docker-compose up -d
