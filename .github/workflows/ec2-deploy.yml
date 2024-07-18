@@ -1,0 +1,30 @@
+name: Deploy payment gateway backend service
+
+on:
+  push: 
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}       
+      - name: Build docker image
+        run: docker build -t srikar9/paymentgateway-app:latest .
+      - name: Publish image to docker hub
+        run: docker push srikar9/paymentgateway-app:latest
+        
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull srikar9/paymentgateway-app:latest
+      - name: Delete old container
+        run: docker rm -f paymentgateway-app-container
+      - name: Run docker container
+        run: docker run -d -p 80:80 --name paymentgateway-app-container srikar9/paymentgateway-app
