@@ -1,9 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/Router.js";
-import authMiddleware from "./middleware/authenticateMiddleware.js";
+import authenticateMiddleware from "./middleware/authenticateMiddleware.js";
 import swaggerUi from "swagger-ui-express";
-import swaggerDoc from "./swagger.json" assert { type: "json" };
+import { readFile } from "fs/promises";
+const swaggerDoc = JSON.parse(
+  await readFile(new URL("./swagger.json", import.meta.url))
+);
 
 dotenv.config();
 
@@ -18,7 +21,7 @@ app.use("/", (req, res, next) => {
     if (req.path === "/docs" || req.path === "/users") {
         return next();
     } else {
-        return authMiddleware(req, res, next);
+        return authenticateMiddleware(req, res, next);
     }
 });
 

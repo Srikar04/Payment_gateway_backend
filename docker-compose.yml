@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      PORT: 3000
+      DATABASE_URL: "mysql://root:srikar4103@db:3306/payment_gateway"  # Use db as the hostname since it's the service name
+    volumes:
+      - .:/usr/src/app  # Mount your app code into the container for development
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: srikar4103
+      MYSQL_DATABASE: payment_gateway
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
