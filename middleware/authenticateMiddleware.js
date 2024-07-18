@@ -1,6 +1,6 @@
 import prisma from "../models/index.js";
 
-const authMiddleware = async (req, res, next) => {
+const authenticateMiddleware = async (req, res, next) => {
   const apiKey = req.headers["x-api-key"];
   if (!apiKey || apiKey == "") {
     return res.status(401).json({ error: "API Key Missing" });
@@ -23,4 +23,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-export default authMiddleware;
+export default authenticateMiddleware;

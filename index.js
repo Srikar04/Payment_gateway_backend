@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/Router.js";
-import authMiddleware from "./middleware/authMiddleware.js";
+import authMiddleware from "./middleware/authenticateMiddleware.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerDoc from "./swagger.json" assert { type: "json" };
 
