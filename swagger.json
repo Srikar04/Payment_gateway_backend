@@ -1,0 +1,555 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Payment Gateway API",
+        "version": "1.0.0",
+        "description": "API documentation for the Payment Gateway service"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Create a new user",
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "apiKey": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions": {
+            "post": {
+                "summary": "Create a new transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "transactionType": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get all transactions",
+                "tags": [
+                    "Transactions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of transactions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "transactionType": {
+                                                "type": "string"
+                                            },
+                                            "amount": {
+                                                "type": "number"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "string"
+                                            },
+                                            "transactionOwner": {
+                                                "type": "string"
+                                            },
+                                            "transactionDate": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transactionId}": {
+            "get": {
+                "summary": "Get transaction by ID",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "transactionType": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transaction updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transactionId}/accept": {
+            "put": {
+                "summary": "Accept transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction accepted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transactionId}/reject": {
+            "put": {
+                "summary": "Reject transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction rejected successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{transactionId}/refund": {
+            "put": {
+                "summary": "Refund transaction",
+                "tags": [
+                    "Transactions"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "x-api-key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "API key of the user"
+                    },
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "ID of the transaction"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction refunded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "transactionType": {
+                                            "type": "string"
+                                        },
+                                        "amount": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "transactionOwner": {
+                                            "type": "string"
+                                        },
+                                        "transactionDate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

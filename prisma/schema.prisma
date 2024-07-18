@@ -8,7 +8,7 @@ generator client {
 }
 
 model User {
-    id String @id @default(uuid())
+    name String @id 
     apiKey String @unique
     transaction Transaction[]
 }
@@ -23,7 +23,7 @@ enum TransactionStatus{
     PENDING
     SUCCESS
     FAILED
-    CANCELLED
+    REFUNDED
 }
 
 model Transaction{
@@ -34,5 +34,5 @@ model Transaction{
     amount Float
     status TransactionStatus
     description String?
-    user User @relation(fields: [transactionOwner], references: [id])
+    user User @relation(fields: [transactionOwner], references: [name])
 }
