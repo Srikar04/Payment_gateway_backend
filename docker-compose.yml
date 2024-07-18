@@ -10,7 +10,7 @@ services:
       - db
     environment:
       PORT: 3000
-      DATABASE_URL: "mysql://root:srikar4103@db:3306/payment_gateway"  # Use db as the hostname since it's the service name
+      DATABASE_URL: "mysql://root:password@db:3306/payment_gateway"  # Use db as the hostname since it's the service name
     volumes:
       - .:/usr/src/app  # Mount your app code into the container for development
 
@@ -18,7 +18,7 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: srikar4103
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: payment_gateway
     volumes:
       - mysql_data:/var/lib/mysql
