@@ -22,7 +22,11 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-       - name: Pull Docker image and restart containers
-         run: docker-compose pull
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Pull Docker image and restart containers
+        run: |
+          docker-compose pull
           docker-compose down
           docker-compose up -d

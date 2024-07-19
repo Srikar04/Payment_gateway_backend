@@ -2,8 +2,7 @@ version: '3.6'
 
 services:
   app:
-    build:
-      context: .
+    image: srikar9/paymentgateway-app:latest
     ports:
       - "3000:3000"
     depends_on:
